@@ -16,10 +16,12 @@ const Login = () => {
     e.preventDefault();
 
     try {
+        
       const res = await login(form);
 
-      setUser(res.data.user);
-
+     console.log(res+"jbjhgh"); // IMPORTANT
+      
+      setUser(res); // adjust after checking log
       nav("/dashboard");
     } catch (error) {
       alert(

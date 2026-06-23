@@ -1,25 +1,57 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext,useEffect,useState} from "react";
+import { getCurrentUser} from "../services/auth.service";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export const AuthProvider = ({children}) => {
 
-  return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      {children}
-    </AuthContext.Provider>
-  );
+ const [user,setUser]= useState(null);
+
+ useEffect(()=>{
+
+  const loadUser = async()=>{
+                  try{
+                    const res =await getCurrentUser();
+                    console.log("CURRENT USER:", res);
+                    setUser(res); }
+
+                  catch{ setUser(null); }
+ };
+  loadUser();
+ },[]);
+
+ return(<AuthContext.Provider value={{ user, setUser}}>{children}</AuthContext.Provider>);
+
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth =()=>useContext(  AuthContext );
 
 
 
 
-/*main.jsx → calls AuthProvider
+/*
+(workflow when the page is visited and the user is still logged in)
+Open website
+↓
+AuthProvider loads  (main.jsx)
+↓
+GET /auth/current-user
+↓
+Browser sends cookies (to backend)
+↓
+verifyJWT  (middleware)
+↓
+req.user  
+↓
+setUser()
+↓
+Dashboard knows user*/
+
+
+
+/*
+(workflow when user is set after manually logging in)
+main.jsx → calls AuthProvider
 AuthProvider → provides auth state  (just makes useState/space)
 useAuth() → auth states can be used anywhere in the app  (login page setUser then other components in frontend access it)
 

@@ -1,8 +1,21 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/api",
-  withCredentials: true,
+ baseURL:"http://localhost:8000/api/v1",
+ withCredentials:true
 });
-console.log("axios loaded");
+
+api.interceptors.response.use((response)=>response,
+
+ async(error)=>{
+  if(error.response?.status===401){
+   await api.post("/auth/refresh-token");
+   return api(error.config);
+  }
+
+  return Promise.reject(error);
+ }
+
+);
+
 export default api;

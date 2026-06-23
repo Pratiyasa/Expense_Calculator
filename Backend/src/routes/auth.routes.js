@@ -1,14 +1,28 @@
-import express from "express"
+import { Router } from "express";
 
 import {
- register
-} from "../controllers/auth.controller.js"
+ registerUser,
+ loginUser,
+ logoutUser,
+ refreshAccessToken,
+ getCurrentUser,
+} from "../controllers/auth.controller.js";
 
-const router = express.Router()
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
-router.post(
- "/register",
- register
-)
+const router = Router();
 
-export default router
+
+
+// PUBLIC ROUTES
+
+router.route("/register").post(registerUser);
+router.route("/login").post(loginUser);
+router.route("/refresh-token").post(refreshAccessToken);
+
+
+// PROTECTED ROUTES
+router.route("/logout").post(verifyJWT,  logoutUser);
+router.route("/current-user").get(verifyJWT,getCurrentUser);
+
+export default router;

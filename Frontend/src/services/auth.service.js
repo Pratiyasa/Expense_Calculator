@@ -15,14 +15,13 @@ export const logout = async () => {
   return res.data;
 };
 
-export const getCurrentUser = async () => {
-  const res = await api.get("/users/profile");
-  return res.data;
-};
-
 export const refreshToken = async () => {
   const res = await api.post("/auth/refresh-token");
   return res.data;
 };
 
-//export default login;
+export const getCurrentUser = async () => {
+  const res = await api.get("/auth/current-user");
+  return res.data;
+};
+
