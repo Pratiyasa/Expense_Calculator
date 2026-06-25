@@ -2,6 +2,7 @@ import { useState } from "react";
 import { login } from "../services/auth.service";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const nav = useNavigate();
@@ -12,27 +13,41 @@ const Login = () => {
     password: "",
   });
 
-  const submit = async (e) => {
-    e.preventDefault();
+ const submit = async (e) => {
+  e.preventDefault();
 
-    try {
-        
-      const res = await login(form);
+  try {
+    const res = await login(form);
 
-     console.log(res+"jbjhgh"); // IMPORTANT
-      
-      setUser(res); // adjust after checking log
-      nav("/dashboard");
-    } catch (error) {
-      alert(
-        error?.response?.data?.message ||
-        "Login failed"
-      );
-    }
-  };
+    console.log(res.data.user); // OK
+
+    setUser(res.data.user); // ✅ FIX
+
+    nav("/dashboard");
+  } catch (error) {
+    alert(error?.response?.data?.message || "Login failed");
+  }
+};
 
   return (
     <div className="min-h-screen flex">
+       <div className="absolute top-6 left-8">
+
+            <Link
+            to="/"
+            className="
+            text-2xl
+            font-bold
+            text-white
+            hover:text-indigo-300
+            "
+            >
+
+            ExpenseTracker
+
+            </Link>
+
+            </div>
 
       {/* Left */}
       <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-indigo-600 to-purple-700 text-white items-center justify-center">

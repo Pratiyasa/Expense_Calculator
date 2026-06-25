@@ -3,10 +3,19 @@ import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
- import Home from "./pages/Home";
+import Home from "./pages/Home";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import { useAuth } from "./context/AuthContext";
+
 
 export default function App() {
+
+const { user, loading } = useAuth();
+
+if (loading) {
+  return <div>Loading...</div>;
+}
+
  return (
   <BrowserRouter>
    <Routes>

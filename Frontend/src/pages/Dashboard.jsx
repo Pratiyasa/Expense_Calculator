@@ -1,101 +1,164 @@
-import { useAuth } from "../context/AuthContext";
+import Navbar from "../components/Navbar";
 
 export default function Dashboard() {
-  const { user } = useAuth();
 
-  return (
-    <div className="min-h-screen bg-slate-100">
+return (
 
-      <nav className="bg-white px-10 py-5 shadow flex justify-between">
+<div className="min-h-screen bg-slate-100">
 
-        <h1 className="text-2xl font-bold text-indigo-700">
-          ExpenseTracker
-        </h1>
+<Navbar />
 
-        <div>
-          Welcome,
-          <span className="font-bold ml-2">
-            {user?.fullname}
-          </span>
-        </div>
+<div className="max-w-7xl mx-auto p-8">
 
-      </nav>
+<h1
+className="
+text-4xl
+font-bold
+mb-8
+"
+>
 
-      <div className="max-w-7xl mx-auto p-10">
+Dashboard
 
-        <h2 className="text-4xl font-bold mb-10">
-          Dashboard
-        </h2>
+</h1>
 
-        <div className="grid md:grid-cols-3 gap-6">
 
-          <div className="bg-white rounded-3xl p-8 shadow">
+<div
+className="
+grid
+grid-cols-1
+md:grid-cols-3
+gap-6
+"
+>
 
-            <p className="text-gray-500">
-              Total Balance
-            </p>
+<div
+className="
+bg-white
+rounded-3xl
+shadow
+p-8
+"
+>
 
-            <h3 className="text-4xl font-bold mt-3">
-              ₹25,400
-            </h3>
+<h3 className="text-gray-500">
 
-          </div>
+Total Expenses
 
-          <div className="bg-white rounded-3xl p-8 shadow">
+</h3>
 
-            <p className="text-gray-500">
-              Income
-            </p>
+<p className="text-4xl font-bold">
 
-            <h3 className="text-4xl font-bold text-green-600 mt-3">
-              ₹40,000
-            </h3>
+₹0
 
-          </div>
+</p>
 
-          <div className="bg-white rounded-3xl p-8 shadow">
+</div>
 
-            <p className="text-gray-500">
-              Expense
-            </p>
 
-            <h3 className="text-4xl font-bold text-red-500 mt-3">
-              ₹14,600
-            </h3>
+<div
+className="
+bg-white
+rounded-3xl
+shadow
+p-8
+"
+>
 
-          </div>
+<h3 className="text-gray-500">
 
-        </div>
+This Month
 
-        <div className="mt-10 bg-white rounded-3xl p-8 shadow">
+</h3>
 
-          <h3 className="text-2xl font-bold mb-5">
-            Recent Activity
-          </h3>
+<p className="text-4xl font-bold">
 
-          <div className="space-y-4">
+₹0
 
-            <div className="flex justify-between">
-              <span>Food</span>
-              <span>- ₹450</span>
-            </div>
+</p>
 
-            <div className="flex justify-between">
-              <span>Shopping</span>
-              <span>- ₹1500</span>
-            </div>
+</div>
 
-            <div className="flex justify-between">
-              <span>Salary</span>
-              <span>+ ₹30000</span>
-            </div>
 
-          </div>
+<div
+className="
+bg-white
+rounded-3xl
+shadow
+p-8
+"
+>
 
-        </div>
+<h3 className="text-gray-500">
 
-      </div>
+Transactions
 
-    </div>
-  );
+</h3>
+
+<p className="text-4xl font-bold">
+
+0
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div className="mt-10">
+
+<button
+
+className="
+bg-indigo-600
+text-white
+px-6
+py-3
+rounded-xl
+hover:bg-indigo-700
+"
+
+>
+
++ Add Expense
+
+</button>
+
+</div>
+ <div className="mt-10">
+
+<h2 className="text-2xl font-bold mb-5">
+
+Recent Expenses
+
+</h2>
+
+<div className="space-y-4">
+
+<div
+className="
+bg-white
+rounded-2xl
+p-5
+shadow
+"
+>
+
+Food — ₹250
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+
+
+);
+
 }

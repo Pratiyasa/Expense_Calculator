@@ -21,7 +21,7 @@ Used in user routes
 export const verifyJWT = asyncHandler(async (req, _, next) => {
   try {
     const token =  
-      req.cookies?.accessToken ||                               //checking the access token from cookies//
+      req.cookies?.accessToken ||                            //checking the access token cookies//
       req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {

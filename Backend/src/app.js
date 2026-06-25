@@ -2,6 +2,8 @@ import express from "express"
 import cookieParser from "cookie-parser";
 import cors from "cors"
 import authRoutes from "./routes/auth.routes.js"
+import expenseRoutes from "./routes/expense.routes.js";
+
 
 const app = express()
 
@@ -16,6 +18,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true,limit:"16kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
+
+
 app.get("/", (req, res) => {
  res.send("Backend working");
 });
@@ -23,7 +27,11 @@ app.use((req, res, next) => {
   console.log(req.method, req.url);
   next();
 });
+
+
 app.use( "/api/v1/auth", authRoutes)
+app.use("/api/v1/expenses",expenseRoutes);
+
 
 export default app
 

@@ -5,22 +5,43 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
 
- const [user,setUser]= useState(null);
+const [user, setUser] = useState(null);
+const [loading, setLoading] = useState(true);
 
- useEffect(()=>{
+ useEffect(() => {
 
-  const loadUser = async()=>{
-                  try{
-                    const res =await getCurrentUser();
-                    console.log("CURRENT USER:", res);
-                    setUser(res); }
+ const loadUser = async()=>{
 
-                  catch{ setUser(null); }
- };
-  loadUser();
- },[]);
+ try{
 
- return(<AuthContext.Provider value={{ user, setUser}}>{children}</AuthContext.Provider>);
+  const res = await getCurrentUser();
+
+  console.log("CURRENT USER:", res);
+
+  setUser(res.data);
+
+ }
+
+ catch(error){
+
+  console.log(error);
+
+  setUser(null);
+
+ }
+
+ finally{
+
+  setLoading(false);
+
+ }
+
+};
+
+ loadUser();
+
+}, []);
+ return(<AuthContext.Provider value={{ user,setUser,loading}}>{children}</AuthContext.Provider>);
 
 };
 

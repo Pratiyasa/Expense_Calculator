@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { register } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const nav = useNavigate();
@@ -31,6 +32,24 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex">
+
+      <div className="absolute top-6 left-8">
+
+            <Link
+            to="/"
+            className="
+            text-2xl
+            font-bold
+            text-white
+            hover:text-cyan-200
+            "
+            >
+
+            ExpenseTracker
+
+            </Link>
+
+            </div>
 
       <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-cyan-600 to-indigo-700 items-center justify-center text-white">
 
