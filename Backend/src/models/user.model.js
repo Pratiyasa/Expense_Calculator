@@ -28,6 +28,21 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required"],
     },
+    occupation: {
+    type: String,
+    default: ""
+    },
+
+    freelance: {
+    type: Boolean,
+    default: false
+    },
+
+    address: {
+    type: String,
+    default: ""
+    },
+    
     refreshToken: {
       type: String,
     },

@@ -3,6 +3,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors"
 import authRoutes from "./routes/auth.routes.js"
 import expenseRoutes from "./routes/expense.routes.js";
+import incomeRoutes from "./routes/income.routes.js"
+import goalRoutes from "./routes/goal.routes.js";
 
 
 const app = express()
@@ -31,6 +33,8 @@ app.use((req, res, next) => {
 
 app.use( "/api/v1/auth", authRoutes)
 app.use("/api/v1/expenses",expenseRoutes);
+app.use("/api/v1/income",incomeRoutes);
+app.use("/api/v1/goal",goalRoutes);
 
 
 export default app

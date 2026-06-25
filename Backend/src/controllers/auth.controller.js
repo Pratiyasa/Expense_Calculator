@@ -245,3 +245,56 @@ export const getCurrentUser = asyncHandler(
   }
 );
 
+
+//Update current user profile
+
+
+
+export const updateUserProfile = asyncHandler(
+ async (req,res)=>{
+
+const {
+ fullname,
+ occupation,
+ freelance,
+ address
+}=req.body;
+
+
+const user =
+await User.findByIdAndUpdate(
+
+req.user._id,
+
+{
+ $set:{
+  fullname,
+  occupation,
+  freelance,
+  address
+ }
+},
+
+{
+ new:true
+}
+
+).select("-password -refreshToken");
+
+
+return res.status(200).json(
+
+new ApiResponse(
+
+200,
+
+user,
+
+"Profile updated successfully"
+
+)
+
+);
+
+}
+);

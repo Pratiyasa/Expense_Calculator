@@ -2,7 +2,7 @@ import Expense from "../models/expense.model.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
-
+import { updateBalance } from "../utils/updateBalance.js";
 
 /*
 CREATE EXPENSE
@@ -20,6 +20,14 @@ throw new ApiError(400,"All required fields are missing");
 
 const expense =await Expense.create({title,amount,category,note,date,owner:req.user._id,});
 
+await updateBalance(
+
+req.user._id,
+
+-expense.amount
+
+);
+
 return res.status(201)
 .json(new ApiResponse(201,expense,"Expense created"));
 
@@ -34,7 +42,6 @@ GET ALL USER EXPENSES
 export const getExpenses =asyncHandler(async (req, res) => {
 
 const expenses =await Expense.getUserExpenses(req.user._id);
-
 
 return res.status(200)
 .json(
@@ -56,7 +63,6 @@ GET SINGLE EXPENSE
 export const getExpenseById =asyncHandler(async (req,res) => {
 
 const expense =await Expense.findOne({_id:req.params.id,owner:req.user._id,});
-
 
 if (!expense) {throw new ApiError(404,"Expense not found")}
 
@@ -82,38 +88,28 @@ UPDATE EXPENSE
 export const updateExpense =asyncHandler(async (req,res) => {
 
 const expense =await Expense.findOne({_id:req.params.id,owner:req.user._id,});
-
-
 if (!expense) {
 throw new ApiError(404,"Expense not found");}
 
-
 const {title,amount,category,note,date} = req.body;
-
-
 
 if (title)
 expense.title =title;
-
-
 if (amount)
 expense.amount =amount;
-
-
 if (category)
 expense.category =category;
-
-
 if (note !== undefined)
 expense.note =note;
-
-
 if (date)
 expense.date =date;
 
 
+const oldAmount =expense.amount;
+
 await expense.save();
 
+await updateBalance(req.user._id,oldAmount - expense.amount);
 
 return res
 .status(200)
@@ -142,6 +138,8 @@ if (!expense) {
 throw new ApiError(404,"Expense not found");
 }
 
+
+await updateBalance(req.user._id,expense.amount);
 
 return res
 .status(200)
