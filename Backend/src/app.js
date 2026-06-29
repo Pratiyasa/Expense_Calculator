@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 app.use( "/api/v1/auth", authRoutes)
 app.use("/api/v1/expenses",expenseRoutes);
 app.use("/api/v1/income",incomeRoutes);
-app.use("/api/v1/goal",goalRoutes);
+app.use("/api/v1/goals",goalRoutes);
 
 
 export default app

@@ -67,11 +67,7 @@ await existing.save();
 
 await updateBalance(
 
-req.user._id,
-
-newIncome - oldIncome
-
-);
+req.user._id);
 
 
 return res
@@ -111,12 +107,7 @@ owner:req.user._id
 
 await updateBalance(
 
-req.user._id,
-
-Number(salary)
-+
-Number(bonus)
-
+req.user._id
 );
 
 

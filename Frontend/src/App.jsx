@@ -5,6 +5,8 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Expenses from "./pages/Expenses";
+import Goals from "./pages/Goals";
 import { useAuth } from "./context/AuthContext";
 
 
@@ -19,15 +21,24 @@ if (loading) {
  return (
   <BrowserRouter>
    <Routes>
+
+
    <Route path="/" element={<Home />} />
     <Route path="/register" element={<Register />}/>
 
     <Route path="/login" element={<Login />}/>
 
+    <Route path="/goals" element={<ProtectedRoute>
+                                  <Goals />
+                                  </ProtectedRoute>
+      }/>
+
     <Route path="/dashboard" element={<ProtectedRoute>
                                          <Dashboard />
                                        </ProtectedRoute>
      }/>
+     <Route path="/expenses" element={<Expenses/>}/>
+
 
    </Routes>
   </BrowserRouter>

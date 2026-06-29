@@ -1,19 +1,25 @@
 import { Router } from "express";
 
+import {
+createGoal,
+getGoals,
+updateGoal,
+deleteGoal
+}
+from "../controllers/goal.controller.js";
+
 import verifyJWT from "../middlewares/auth.middleware.js";
 
-import {createGoal,getGoals,updateGoal,deleteGoal} from "../controllers/goal.controller.js";
-
-
-const router =Router();
+const router = Router();
 
 router.use(verifyJWT);
 
+router.route("/")
+.post(createGoal)
+.get(getGoals);
 
-router.route("/").post(createGoal).get(getGoals);
-
-
-router.route("/:id").put(updateGoal).delete(deleteGoal);
-
+router.route("/:id")
+.put(updateGoal)
+.delete(deleteGoal);
 
 export default router;

@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import  asyncHandler  from "../utils/asyncHandler.js";
 import  ApiError  from "../utils/ApiError.js";
 import  ApiResponse  from "../utils/ApiResponse.js";
+import Wallet from "../models/wallet.model.js";
 import jwt from "jsonwebtoken";
 
 
@@ -229,21 +230,44 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
 
 // Get Current User
 
-export const getCurrentUser = asyncHandler(
-  async (req, res) => {
 
-    return res
-      .status(200)
-      .json(
-        new ApiResponse(
-          200,
-          req.user,
-          "Current user fetched successfully"
-        )
-      );
 
-  }
+export const getCurrentUser=
+asyncHandler(async(req,res)=>{
+
+const wallet=
+await Wallet.findOne({
+
+owner:req.user._id
+
+});
+
+const userData={
+
+...req.user.toObject(),
+
+balance:
+wallet?.currentBalance || 0
+
+};
+console.log(wallet?.currentBalance )
+console.log(userData)
+
+return res.status(200).json(
+
+new ApiResponse(
+
+200,
+
+userData,
+
+"User fetched"
+
+)
+
 );
+
+});
 
 
 //Update current user profile
