@@ -4,29 +4,100 @@ import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { updateBalance } from "../utils/updateBalance.js";
 
+import Wallet from "../models/wallet.model.js";
 /*
 CREATE EXPENSE
 */
 
-export const createExpense =asyncHandler(async (req, res) => {
 
-const {title,amount,category,note,date} = req.body;
+export const createExpense =
+asyncHandler(async(req,res)=>{
+
+const {
+title,
+amount,
+category,
+note,
+date
+}=req.body;
 
 
-if (!title ||!amount ||!category) {
-throw new ApiError(400,"All required fields are missing");
+if(
+!title
+||
+!amount
+||
+!category
+){
+
+throw new ApiError(
+400,
+"All required fields are missing"
+);
+
 }
 
 
-const expense =await Expense.create({title,amount,category,note,date,owner:req.user._id,});
+const expense =
+await Expense.create({
 
-await updateBalance(req.user._id);
-
-return res.status(201)
-.json(new ApiResponse(201,expense,"Expense created"));
+title,
+amount,
+category,
+note,
+date,
+owner:req.user._id
 
 });
 
+
+/* SUBTRACT FROM WALLET */
+
+const wallet =
+await Wallet.findOne({
+
+owner:req.user._id
+
+});
+
+
+if(wallet){
+
+wallet.currentBalance -=
+
+Number(amount);
+
+await wallet.save();
+
+}
+
+
+/* OPTIONAL:
+salary monthly credit check
+*/
+
+await updateBalance(
+req.user._id
+);
+
+
+return res
+.status(201)
+.json(
+
+new ApiResponse(
+
+201,
+
+expense,
+
+"Expense created"
+
+)
+
+);
+
+});
 
 
 /*
@@ -91,6 +162,7 @@ owner:req.user._id
 
 });
 
+
 if(!expense){
 
 throw new ApiError(
@@ -99,6 +171,15 @@ throw new ApiError(
 );
 
 }
+
+
+/* SAVE OLD AMOUNT FIRST */
+
+const oldAmount =
+Number(
+expense.amount
+);
+
 
 const {
 title,
@@ -127,9 +208,35 @@ expense.date=date;
 
 await expense.save();
 
+
+
+const wallet =
+await Wallet.findOne({
+
+owner:req.user._id
+
+});
+
+
+if(wallet){
+
+wallet.currentBalance +=
+oldAmount;
+
+wallet.currentBalance -=
+Number(
+expense.amount
+);
+
+await wallet.save();
+
+}
+
+
 await updateBalance(
 req.user._id
 );
+
 
 return res.status(200).json(
 
@@ -147,7 +254,6 @@ expense,
 
 });
 
-
 /*
 DELETE EXPENSE
 */
@@ -161,6 +267,22 @@ if (!expense) {
 throw new ApiError(404,"Expense not found");
 }
 
+const wallet =
+await Wallet.findOne({
+
+owner:req.user._id
+
+});
+
+if(wallet){
+
+wallet.currentBalance +=
+
+Number(expense.amount);
+
+await wallet.save();
+
+}
 
 await updateBalance(req.user._id);
 

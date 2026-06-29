@@ -28,7 +28,7 @@ function Home() {
 
   return (
 
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50">
+    <div className="min-h-screen bg-gradient-to-br bg-black from-indigo-50 via-white to-cyan-50">
 
       {/* Navbar */}
 
@@ -154,7 +154,7 @@ function Home() {
 
       {/* Hero */}
 
-      <section className="max-w-7xl mx-auto px-10 py-20">
+      <section className="max-w-7xl mx-auto px-10 py-20 bg-gray-900">
 
         <div className="grid md:grid-cols-2 items-center gap-16">
 

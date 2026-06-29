@@ -12,14 +12,16 @@ unique:true
 currentBalance:{
 type:Number,
 default:0
+},
+
+lastSalaryCredit:{
+type:Date,
+default:null
 }
 
 },
-
 {
-
 timestamps:true
-
 });
 
 export default mongoose.model(
